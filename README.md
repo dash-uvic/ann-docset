@@ -7,31 +7,33 @@ Annotated DocSet is a synthetic dataset with instance and semantic segmentations
 
 This dataset uses two external datasets to construct a synthentic datasets and they must be downloaded for the authors websites.
 
-1. PubLayNet: Download and extract the dataset [here](https://developer.ibm.com/exchanges/data/all/publaynet/) and extract. Note: We used the validation set only due to the limited size of the IAMonDo dataset.
+1. PubLayNet: Download the dataset [here](https://developer.ibm.com/exchanges/data/all/publaynet/) and extract to `datasets`. Note: We used the validation set only due to the limited size of the IAMonDo dataset.
 
 Expected Folder Structure:
 
-publaynet/
-    -- val/
-        -- *.PNG
+datasets/ \
+  -- publaynet/ \
+    -- val/ \
+      -- *.PNG \
 
 The labels for tval splits can be found in `val.json`. The labels are in the MS COCO format.
 
 
-2. IAMonDo: Download and extract the dataset [here](https://fki.tic.heia-fr.ch/databases/iam-online-document-database)
+2. IAMonDo: Download and extract the dataset [here](https://fki.tic.heia-fr.ch/databases/iam-online-document-database) to `datasets`
 
 Expected Folder Structure:
 
-IAMonDo-db-1.0/
-    -- *.inkml
-    -- *.set
+datasets/ \
+  -- IAMonDo-db-1.0/ \
+    -- *.inkml \
+    -- *.set \
 
 ## Construct the dataset
 
-Requirements:
+Requirements:\
 
-Python 3.7+
-OpenCV 4.5+
+Python 3.7+\
+OpenCV 4.5+\
 
 1. Install the required python packages
 
@@ -41,20 +43,20 @@ OpenCV 4.5+
 
 `python parse_inkml.py [--iamondo PATH/TO/IAMonDo-db-1.0] [--output-dir PATH/WHERE/TO/SAVE]`
 
-Defaults: 
+Defaults: \
 `python parse_inkml.py --iamondo datasets/IAMonDo-db-1.0] --output-dir datasets/IAMonDo-Images`
 
-This will create a folder structure:
-path/to/output/
-   -- categories/
-       -- `IAMonDo Classes`/
-           -- *.png  
-   -- labelled/  
-       -- *.png  
-   -- original/
-       -- *.png  
-    -- colormap.[png,json]
-inkml.json
+This will create a folder structure:\
+path/to/output/\
+   -- categories/\
+       -- `IAMonDo Classes`/\
+           -- *.png  \
+   -- labelled/  \
+       -- *.png  \
+   -- original/\
+       -- *.png \ 
+    -- colormap.[png,json]\
+inkml.json\
 
 3. Construct the Annotated DocSet. This will create a folder `annotated_docset-{tag}`. Sub-folder `images` contains the created dataset files. 
 
@@ -89,6 +91,6 @@ A basic visualization script has been provided to view the contents of the H5 gr
   doi={},
   ISSN={},
   month={May.},
-  organization={}
+  organization={IEEE}
 }
 ```
