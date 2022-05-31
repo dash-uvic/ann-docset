@@ -7,16 +7,88 @@ Annotated DocSet is a synthetic dataset with instance and semantic segmentations
 
 This dataset uses two external datasets to construct a synthentic datasets and they must be downloaded for the authors websites.
 
-1. PubLayNet: Download the dataset [here](https://developer.ibm.com/exchanges/data/all/publaynet/). Note: We used the validation set only due to the limited size of the IAMonDo dataset.
+1. PubLayNet: Download and extract the dataset [here](https://developer.ibm.com/exchanges/data/all/publaynet/) and extract. Note: We used the validation set only due to the limited size of the IAMonDo dataset.
 
-2. IAMonDo: Download the dataset [here](https://fki.tic.heia-fr.ch/databases/iam-online-document-database)
+Expected Folder Structure:
+
+publaynet/
+    -- val/
+        -- *.PNG
+
+The labels for tval splits can be found in `val.json`. The labels are in the MS COCO format.
+
+
+2. IAMonDo: Download and extract the dataset [here](https://fki.tic.heia-fr.ch/databases/iam-online-document-database)
+
+Expected Folder Structure:
+
+IAMonDo-db-1.0/
+    -- *.inkml
+    -- *.set
 
 ## Construct the dataset
 
 Requirements:
 
-Python 3.6+
+Python 3.7+
 OpenCV 4.5+
-Numpy
 
+1. Install the required python packages
 
+`pip install -r requirements.txt`
+
+2. Convert the IAMonDo dataset from INKML format to PNG images
+
+`python parse_inkml.py [--iamondo PATH/TO/IAMonDo-db-1.0] [--output-dir PATH/WHERE/TO/SAVE]`
+
+Defaults: 
+`python parse_inkml.py --iamondo datasets/IAMonDo-db-1.0] --output-dir datasets/IAMonDo-Images`
+
+This will create a folder structure:
+path/to/output/
+   -- categories/
+       -- `IAMonDo Classes`/
+           -- *.png  
+   -- labelled/  
+       -- *.png  
+   -- original/
+       -- *.png  
+    -- colormap.[png,json]
+inkml.json
+
+3. Construct the Annotated DocSet. This will create a folder `annotated_docset-{tag}`. Sub-folder `images` contains the created dataset files. 
+
+`python create_dataset.py --tag v1.0`
+
+## Annotation Format
+
+The ground-truth is stored in numpy arrays, stored in HDF5 files.   
+
+* instance_segmentations.hdf5: Segmentation mask for each instance
+* dense_segmentations.hdf5: Single-channel dense label masks and experimental multi-channel dense labels
+* multilabel_segmentations.hdf5: one-hot encoded masks
+* stroke_segmentations.hdf5: Handwritten classes ground-truth with only stroke masks
+
+## Visualize
+
+A basic visualization script has been provided to view the contents of the H5 ground-truth files.
+
+`python visualize -d annotated_docset-v1.0 [-s val|test|train] [-i docset image]` 
+
+## Cite us
+
+```
+@inproceedings{dash2022classification,
+  title={Classification of handwritten annotations in mixed-media documents},
+  author={Dash, Amanda and Branzan Albu, Alexandra },
+  booktitle={19th Conference on Robots and Vision 2022 (CRV)},
+  year={2022},
+  volume={},
+  number={},
+  pages={},
+  doi={},
+  ISSN={},
+  month={May.},
+  organization={}
+}
+```

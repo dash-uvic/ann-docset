@@ -1,0 +1,5 @@
+opencv-python==4.5.*
+numpy
+matplotlib
+scikit-image
+h5py
